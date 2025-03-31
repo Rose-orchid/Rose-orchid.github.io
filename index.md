@@ -2,36 +2,182 @@
 
 You can use the [editor on GitHub](https://github.com/Rose-orchid/Rose-orchid.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>妮妮的相册</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+        h1 {
+            color: #ff6347;
+        }
+        p {
+            font-size: 18px;
+            color: #333;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 10px 15px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ff6347;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        .pagination button:hover {
+            background-color: #e05f45;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>妮妮的相册</h1>
+        <p>这里是珍藏的美好瞬间，希望你喜欢。</p>
+        <div class="gallery">
+            <img src="photos/1.jpg" alt="Photo 1" class="gallery-item">
+            <img src="photos/9.jpg" alt="Photo 9" class="gallery-item">
+            <img src="photos/10.jpg" alt="Photo 10" class="gallery-item">
+            <img src="photos/5.jpg" alt="Photo 5" class="gallery-item">
+            <img src="photos/3.jpg" alt="Photo 3" class="gallery-item">
+            <img src="photos/6.jpg" alt="Photo 6" class="gallery-item">
+            <img src="photos/7.jpg" alt="Photo 7" class="gallery-item">
+            <img src="photos/8.png" alt="Photo 8" class="gallery-item">
+            <img src="photos/4.jpg" alt="Photo 4" class="gallery-item">
+            <img src="photos/2.jpg" alt="Photo 2" class="gallery-item">
 
-### Markdown
+            <!-- 你可以根据需要添加更多照片 -->
+        </div>
+        <div class="pagination">
+            <button onclick="prevPage()">上一页</button>
+            <button onclick="nextPage()">下一页</button>
+        </div>
+    </div>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modalImage" src="" alt="Enlarged Photo">
+        </div>
+    </div>
 
-```markdown
-Syntax highlighted code block
+    <script>
+        let currentPage = 1;
+        const itemsPerPage = 5;
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const totalPages = Math.ceil(galleryItems.length / itemsPerPage);
 
-# Header 1
-## Header 2
-### Header 3
+        function showPage(page) {
+            galleryItems.forEach((item, index) => {
+                item.style.display = index >= (page - 1) * itemsPerPage && index < page * itemsPerPage ? 'block' : 'none';
+            });
+        }
 
-- Bulleted
-- List
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        }
 
-1. Numbered
-2. List
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        }
 
-**Bold** and _Italic_ and `Code` text
+        showPage(currentPage);
 
-[Link](url) and ![Image](src)
-```
+        // Modal functionality
+        const modal = document.getElementById('myModal');
+        const modalImg = document.getElementById('modalImage');
+        const span = document.getElementsByClassName('close')[0];
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+        galleryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                modal.style.display = 'block';
+                modalImg.src = this.src;
+            });
+        });
 
-### Jekyll Themes
+        span.onclick = function() {
+            modal.style.display = 'none';
+        }
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Rose-orchid/Rose-orchid.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
